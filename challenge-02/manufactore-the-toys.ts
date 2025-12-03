@@ -1,15 +1,9 @@
 export default function manufactureGifts(
 	giftsToProduce: Array<{ toy: string; quantity: number }>
 ) {
-	const result: string[] = []
-
-	for (const { toy, quantity } of giftsToProduce) {
-		if (quantity > 0) {
-			const totalToys = Array(quantity).fill(toy)
-
-			result.push(...totalToys)
-		}
-	}
+	const result = giftsToProduce
+		.filter(({ quantity }) => quantity > 0)
+		.flatMap(({ toy, quantity }) => Array(quantity).fill(toy))
 
 	return result
 }
