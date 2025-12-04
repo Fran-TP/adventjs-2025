@@ -1,8 +1,8 @@
 import assert from 'node:assert'
 import { describe, it } from 'node:test'
-import manufactureGifts from './manufactore-the-toys'
+import manufactureGifts from './manufacture-the-toys'
 
-describe('manufactore the toys', () => {
+describe('manufacture the toys', () => {
 	it('type expected array', () => {
 		const expected = true
 		const actual = Array.isArray(
