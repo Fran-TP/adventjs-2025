@@ -1,9 +1,6 @@
 export default function decodeSantaPin(code: string): string | null {
 	const regExp = /\[(.+?)\]/g
-	const match = code
-		.matchAll(regExp)
-		.map(m => m[1])
-		.toArray()
+	const match = [...code.matchAll(regExp)].map(m => m[1])
 
 	if (match.length < 4) return null
 
@@ -12,17 +9,13 @@ export default function decodeSantaPin(code: string): string | null {
 		'-': (n: number) => (n + 9) % 10
 	}
 
-	let lastValue = null
-	const decodedPin: string[] = []
+	const len = match.length
+	const filteredMatch = match.filter(pin => pin !== '<')
+	let lastPin = ''
+	let decodedPin = ''
 
-	for (const pin of match) {
-		if (pin === '<') {
-			lastValue = decodedPin.at(-1)
-			decodedPin.push(String(lastValue))
-			continue
-		}
-
-		const decode = [...String(pin)].reduce((acc, curr) => {
+	for (const pin of filteredMatch) {
+		const decodePin = [...String(pin)].reduce((acc, curr) => {
 			if (operations[curr]) {
 				return operations[curr](acc)
 			}
@@ -30,10 +23,11 @@ export default function decodeSantaPin(code: string): string | null {
 			return Number(curr)
 		}, 0)
 
-		decodedPin.push(String(decode))
+		decodedPin += decodePin
+		lastPin = String(decodePin)
 	}
 
-	return decodedPin.join('')
+	return decodedPin + lastPin.repeat(len - filteredMatch.length)
 }
 
 console.log(decodeSantaPin('[1++][2-][3+][<]'))
