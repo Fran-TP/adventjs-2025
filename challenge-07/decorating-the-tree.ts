@@ -21,7 +21,7 @@ export default function drawTree(
 		}
 		position += rowLength
 
-		tree += `${pad}${row}${pad}\n`
+		tree += `${pad}${row}\n`
 	}
 
 	return `${tree}${trunk}`
