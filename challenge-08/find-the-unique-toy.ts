@@ -1,22 +1,17 @@
 export default function findUniqueToy(toy: string) {
-	const seen = new Set<string>()
-	const history = new Set<string>()
+	const countOccurrences = new Map<string, number>()
 
 	for (const char of toy) {
-		if (
-			!seen.delete(char.toUpperCase()) &&
-			!seen.delete(char.toLowerCase()) &&
-			!history.has(char.toLowerCase())
-		) {
-			seen.add(char)
-		} else {
-			history.add(char.toLowerCase())
-		}
+		const capitalize = char.toUpperCase()
+		countOccurrences.set(
+			capitalize,
+			(countOccurrences.get(capitalize) ?? 0) + 1
+		)
 	}
 
-	const { value } = seen[Symbol.iterator]().next()
-
-	return value ?? ''
+	return (
+		[...toy].find(char => countOccurrences.get(char.toUpperCase()) === 1) ?? ''
+	)
 }
 
 console.log(findUniqueToy('sotarsof')) // result -> t
