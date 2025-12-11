@@ -9,9 +9,13 @@ export default function findUniqueToy(toy: string) {
 		)
 	}
 
-	return (
-		[...toy].find(char => countOccurrences.get(char.toUpperCase()) === 1) ?? ''
-	)
+	for (const char of toy) {
+		if (countOccurrences.get(char.toUpperCase()) === 1) {
+			return char
+		}
+	}
+
+	return ''
 }
 
 console.log(findUniqueToy('sotarsof')) // result -> t
