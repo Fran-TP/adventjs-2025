@@ -1,31 +1,32 @@
 export default function maxDepth(s: string): number {
 	const stack: string[] = []
 	let countDepth = 0
+	let maxDepth = 0
 
-	for (let i = 0; i < s.length; i++) {
-		const curr = s[i]
-		const prev = s[i - 1]
-
-		if (prev !== ']' && curr === '[') {
-			countDepth++
+	for (const bracket of s) {
+		if (bracket === '[') {
+			stack.push(bracket)
+			++countDepth
 		}
 
-		if (curr === '[') {
-			stack.push(curr)
-		} else if (curr === ']' && !stack.length) {
+		if (!stack.length) {
 			return -1
 		}
 
-		if (curr === ']') {
+		if (bracket === ']') {
 			stack.pop()
+			--countDepth
 		}
+
+		maxDepth = Math.max(countDepth, maxDepth)
 	}
 
-	return stack.length === 0 ? countDepth : -1
+	return stack.length === 0 ? maxDepth : -1
 }
 
-console.log(maxDepth('[[]]'))
-console.log(maxDepth('[[]'))
-console.log(maxDepth('[[][]]'))
-console.log(maxDepth('[[[]]]'))
-console.log(maxDepth('[]]]'))
+console.log(maxDepth('[[]]')) // 2
+console.log(maxDepth('[[]')) // -1
+console.log(maxDepth('[[][]]')) // 2
+console.log(maxDepth('[[[]]]')) // 3
+console.log(maxDepth('[]]]')) // - 1
+console.log(maxDepth('[][]')) // 1
