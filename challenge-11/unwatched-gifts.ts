@@ -7,9 +7,10 @@ export default function findUnsafeGifts(warehouse: string[]): number {
 	}
 	let countUnsafeGifts = 0
 
-	for (let y = 0; y < warehouse.length; y++) {
-		for (let x = 0; x < warehouse[y]?.length; x++) {
+	for (const [y, row] of warehouse.entries()) {
+		for (let x = 0; x < row.length; x++) {
 			const item = warehouse[y]?.[x]
+
 			if (item === '*') {
 				const { UP, DOWN, LEFT, RIGHT } = DIRECTIONS
 				const isSurveillance = [
