@@ -16,7 +16,7 @@ export default function findUnsafeGifts(warehouse: string[]): number {
 					warehouse[row + DOWN.y]?.[col + DOWN.x],
 					warehouse[row + LEFT.y]?.[col + LEFT.x],
 					warehouse[row + RIGHT.y]?.[col + RIGHT.x]
-				].some(v => v === '#')
+				].includes('#')
 
 				if (!isSurveillance) {
 					countUnsafeGifts++
