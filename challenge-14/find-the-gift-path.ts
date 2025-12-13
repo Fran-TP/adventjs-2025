@@ -10,8 +10,8 @@ export default function findGiftPath(workshop: Workshop, gift: Gift): Path {
 			return [key]
 		}
 
-		if (typeof workshop[key] === 'object') {
-			const subPath = findGiftPath(workshop[key], gift)
+		if (typeof value === 'object') {
+			const subPath = findGiftPath(value, gift)
 
 			if (subPath.length) {
 				return [key, ...subPath]
