@@ -1,6 +1,6 @@
 export default function elfBattle(elf1: string, elf2: string): number {
-	const damageTakenElf1 = 3
-	const damageTakenElf2 = 3
+	let hp1 = 3
+	let hp2 = 3
 
 	const DAMAGE_MAP: Record<string, number> = {
 		A: -1,
@@ -8,27 +8,31 @@ export default function elfBattle(elf1: string, elf2: string): number {
 		F: -2
 	}
 
-	const parseActions = (actions1: string, actions2: string) => {
-		const toAction = [...actions1].map((actionType, idx) => {
-			const actionType2 = actions2[idx]
-			if (actionType === 'A' && actionType2 === 'B') return 0
-			if (actionType === 'B' && actionType2 === 'A') return 0
+	for (let turn = 0; turn < elf1.length; turn++) {
+		const elf1Action = elf1[turn]!
+		const elf2Action = elf2[turn]!
 
-			return Number(DAMAGE_MAP[actionType2!])
-		})
+		if (elf1Action === 'A' && elf2Action === 'B') {
+			continue
+		}
 
-		return toAction
+		if (elf1Action === 'B' && elf2Action === 'A') {
+			continue
+		}
+
+		hp1 += DAMAGE_MAP[elf2Action]!
+		hp2 += DAMAGE_MAP[elf1Action]!
+
+		if (hp1 <= 0 || hp2 <= 0) {
+			break
+		}
 	}
 
-	const elf1Actions = parseActions(elf1, elf2)
-	const elf2Actions = parseActions(elf2, elf1)
+	if (hp1 > hp2) return 1
+	if (hp2 > hp1) return 2
 
-	console.log({ elf1Actions, elf2Actions })
-
-	if (damageTakenElf1 === damageTakenElf2) return 0
-
-	return damageTakenElf1 > damageTakenElf2 ? 1 : 2
+	return 0
 }
 
-console.log(elfBattle('AFAB', 'BBAF')) //
+console.log(elfBattle('AFAB', 'BBAF')) // 1
 console.log(elfBattle('A', 'B')) // → 0
