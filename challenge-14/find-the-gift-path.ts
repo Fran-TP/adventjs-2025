@@ -3,23 +3,23 @@ type Workshop = Record<string, any>
 type Path = string[]
 
 export default function findGiftPath(workshop: Workshop, gift: Gift): Path {
-	const result: string[] = []
-
 	for (const key in workshop) {
 		const value = workshop[key]
 
-		console.log(value)
 		if (value === gift) {
 			return [key]
 		}
 
 		if (typeof workshop[key] === 'object') {
-			const returnVal = findGiftPath(workshop[key], gift)
-			if (returnVal.length) result.push(...[key, ...returnVal])
+			const subPath = findGiftPath(workshop[key], gift)
+
+			if (subPath.length) {
+				return [key, ...subPath]
+			}
 		}
 	}
 
-	return result
+	return []
 }
 
 const workshop = {
