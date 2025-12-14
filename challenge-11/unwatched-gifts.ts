@@ -29,8 +29,3 @@ export default function findUnsafeGifts(warehouse: string[]): number {
 
 	return countUnsafeGifts
 }
-
-console.log(findUnsafeGifts(['.*.', '*#*', '.*.'])) // 0
-console.log(findUnsafeGifts(['...', '.*.', '...'])) // 1
-console.log(findUnsafeGifts(['*.*', '...', '*#*'])) // 2
-console.log(findUnsafeGifts(['.....', '.*.*.', '..#..', '.*.*.', '.....'])) // 4
