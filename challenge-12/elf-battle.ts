@@ -3,11 +3,6 @@ export default function elfBattle(elf1: string, elf2: string): number {
 	let hp2 = 3
 	const rounds = Math.min(elf1.length, elf2.length)
 
-	const ACTIONS_TO_DAMAGE: Record<string, number> = {
-		A: 1,
-		B: 0
-	}
-
 	for (let round = 0; round < rounds; round++) {
 		const move1 = elf1[round]!
 		const move2 = elf2[round]!
