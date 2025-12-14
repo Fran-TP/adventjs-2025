@@ -1,28 +1,36 @@
 export default function elfBattle(elf1: string, elf2: string): number {
 	let hp1 = 3
 	let hp2 = 3
+	const rounds = Math.min(elf1.length, elf2.length)
 
-	const DAMAGE_MAP: Record<string, number> = {
-		A: -1,
-		B: 0,
-		F: -2
+	const ACTIONS_TO_DAMAGE: Record<string, number> = {
+		A: 1,
+		B: 0
 	}
 
-	for (let turn = 0; turn < elf1.length; turn++) {
-		const elf1Action = elf1[turn]!
-		const elf2Action = elf2[turn]!
+	for (let round = 0; round < rounds; round++) {
+		const move1 = elf1[round]!
+		const move2 = elf2[round]!
 
-		if (elf1Action === 'A' && elf2Action === 'B') {
-			continue
+		let damageToElf1 = 0
+		let damageToElf2 = 0
+
+		if (move2 === 'A' && move1 !== 'B') {
+			damageToElf1 = 1
+		}
+		if (move2 === 'F') {
+			damageToElf1 = 2
 		}
 
-		if (elf1Action === 'B' && elf2Action === 'A') {
-			continue
+		if (move1 === 'A' && move2 !== 'B') {
+			damageToElf2 = 1
+		}
+		if (move1 === 'F') {
+			damageToElf2 = 2
 		}
 
-		hp1 += DAMAGE_MAP[elf2Action]!
-		hp2 += DAMAGE_MAP[elf1Action]!
-
+		hp1 -= damageToElf1
+		hp2 -= damageToElf2
 		if (hp1 <= 0 || hp2 <= 0) {
 			break
 		}
