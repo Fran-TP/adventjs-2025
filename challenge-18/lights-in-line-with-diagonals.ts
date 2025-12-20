@@ -1,90 +1,57 @@
+import { isReadonlyKeywordOrPlusOrMinusToken } from 'typescript'
+
 export default function hasFourInARow(board: string[][]): boolean {
-	if (!board.length) return false
+	const hasFourFrom = ({
+		board,
+		row,
+		col,
+		dx,
+		dy
+	}: {
+		board: string[][]
+		row: number
+		col: number
+		dx: number
+		dy: number
+	}) => {
+		const cell = board[row][col]
+
+		if (cell === '.') return false
+
+		for (let i = 1; i < 4; i++) {
+			const r = row + dy * i
+			const c = col + dx * i
+
+			if (
+				r < 0 ||
+				r >= board.length ||
+				c < 0 ||
+				c >= board[0].length ||
+				cell !== board[r][c]
+			) {
+				return false
+			}
+		}
+
+		return true
+	}
 
 	const rows = board.length
-	const cols = board[0]!.length
+	const cols = board[0].length
+	const DIRECTIONS: Array<[number, number]> = [
+		[1, 0],
+		[0, 1],
+		[1, 1],
+		[-1, 1]
+	]
 
-	for (let row = 0; row < rows; row++) {
-		let prev: string | null = null
-		let count = 0
-
-		for (let col = 0; col < cols; col++) {
-			const cell = board[row]![col]!
-
-			if (cell === '.' || cell !== prev) {
-				count = cell === '.' ? 0 : 1
-			} else {
-				count++
+	for (let r = 0; r < rows; r++) {
+		for (let c = 0; c < cols; c++) {
+			for (const [dx, dy] of DIRECTIONS) {
+				if (hasFourFrom({ board, row: r, col: c, dx, dy })) return true
 			}
-
-			prev = cell
-
-			if (count === 4) return true
 		}
-	}
-
-	for (let col = 0; col < cols; col++) {
-		let prev: string | null = null
-		let count = 0
-
-		for (let row = 0; row < rows; row++) {
-			const cell = board[row]![col]!
-
-			if (cell === '.' || cell !== prev) {
-				count = cell === '.' ? 0 : 1
-			} else {
-				count++
-			}
-
-			prev = cell
-
-			if (count === 4) return true
-		}
-	}
-
-	let countA = 0
-	let prevA: string | null = null
-
-	let countB = 0
-	let prevB: string | null = null
-
-	for (let i = 0; i < rows; i++) {
-		const cellA = board[i]![i]!
-		const cellB = board[i]![cols - 1 - i]!
-
-		if (cellA === '.' || cellA !== prevA) {
-			countA = cellA === '.' ? 0 : 1
-		} else {
-			countA++
-		}
-		if (cellB === '.' || cellB !== prevB) {
-			countB = cellB === '.' ? 0 : 1
-		} else {
-			countB++
-		}
-		prevB = cellB
-		prevA = cellA
-
-		if (countA === 4 || countB === 4) return true
 	}
 
 	return false
 }
-
-console.log(
-	hasFourInARow([
-		['R', '.', '.', '.'],
-		['.', 'R', '.', '.'],
-		['.', '.', 'R', '.'],
-		['.', '.', '.', 'R']
-	])
-)
-
-console.log(
-	hasFourInARow([
-		['.', '.', '.', 'G'],
-		['.', '.', 'G', '.'],
-		['.', 'G', '.', '.'],
-		['G', '.', '.', '.']
-	])
-)
