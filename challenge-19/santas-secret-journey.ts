@@ -5,15 +5,14 @@ export default function revealSantaRoute(routes: [string, string][]): string[] {
 	const resultPath: string[] = []
 
 	while (true) {
-		if (paths.has(path)) {
-			resultPath.push(path)
-
-			path = paths.get(path)!
-		} else {
+		if (!paths.has(path)) {
 			resultPath.push(path)
 
 			return resultPath
 		}
+
+		resultPath.push(path)
+		path = paths.get(path)!
 	}
 }
 
