@@ -9,8 +9,8 @@ export default function clearGifts(
 			if (cell === '.') {
 				warehouse[y]![col] = '#'
 
-				const isNotFullRow = warehouse[y]?.includes('.')
-				if (!isNotFullRow) {
+				const isFullRow = !warehouse[y]?.includes('.')
+				if (isFullRow) {
 					warehouse.pop()
 					warehouse.unshift(newRow)
 				}
@@ -22,25 +22,3 @@ export default function clearGifts(
 
 	return warehouse
 }
-
-console.log(
-	clearGifts(
-		[
-			['.', '.', '.'],
-			['.', '.', '.'],
-			['#', '.', '#']
-		],
-		[1]
-	)
-)
-
-console.log(
-	clearGifts(
-		[
-			['.', '.', '#'],
-			['#', '.', '#'],
-			['#', '.', '#']
-		],
-		[0, 1, 2]
-	)
-)
