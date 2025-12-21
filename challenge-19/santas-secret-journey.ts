@@ -15,30 +15,3 @@ export default function revealSantaRoute(routes: [string, string][]): string[] {
 		path = paths.get(path)!
 	}
 }
-
-console.log(
-	revealSantaRoute([
-		['USA', 'BRA'],
-		['JPN', 'PHL'],
-		['BRA', 'UAE'],
-		['UAE', 'JPN'],
-		['CMX', 'HKN']
-	])
-) // → ['USA', 'BRA', 'UAE', 'JPN', 'PHL']
-
-console.log(
-	revealSantaRoute([
-		['MEX', 'CAN'],
-		['UK', 'GER'],
-		['CAN', 'UK']
-	])
-)
-// → ['MEX', 'CAN', 'UK', 'GER']
-
-console.log(
-	revealSantaRoute([
-		['STA', 'HYD'],
-		['ESP', 'CHN']
-	])
-)
-// → ['STA', 'HYD']
