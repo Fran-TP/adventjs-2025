@@ -1,5 +1,3 @@
-import { isReadonlyKeywordOrPlusOrMinusToken } from 'typescript'
-
 export default function hasFourInARow(board: string[][]): boolean {
 	const hasFourFrom = ({
 		board,
