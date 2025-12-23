@@ -2,13 +2,6 @@ export default function minStepsToDeliver(map: string[][]): number {
 	const rows = map.length
 	const cols = map[0].length
 
-	const visited = Array.from({ length: rows }, () => Array(cols).fill(false))
-	const isValidCell = (
-		x: number,
-		y: number,
-		rowLength: number,
-		colLength: number
-	) => x >= 0 && x < colLength && y >= 0 && y < rowLength
 	const DIRECTIONS = [
 		[0, -1],
 		[0, 1],
@@ -19,71 +12,56 @@ export default function minStepsToDeliver(map: string[][]): number {
 	let startX: number | null = null
 	let startY: number | null = null
 
-	for (let y = 0; y < rows; y++) {
-		for (let x = 0; x < cols; x++) {
-			if (map[y][x] === 'S') {
-				startX = x
-				startY = y
-			}
+	for (const [y, row] of map.entries()) {
+		const x = row.indexOf('S')
+		if (x !== -1) {
+			startX = x
+			startY = y
+
+			break
 		}
 	}
-	const src = [startX, startY, 0]
-	const [x, y, d] = src
-	const queue = [src]
-	let result = 0
 
-	visited[y][x] = true
+	const distances = Array.from({ length: rows }, () => Array(cols).fill(-1))
+	const src = [startX, startY]
+	const [x, y] = src
+	const queue = [src]
+
+	distances[y][x] = 0
 
 	while (queue.length) {
-		const [x, y, d] = queue.shift()
-		const cell = map[y][x]
-
-		if (cell === 'G') {
-			result += d
-		}
+		const [x, y] = queue.shift()
 
 		for (const [dx, dy] of DIRECTIONS) {
 			const nx = x + dx
 			const ny = y + dy
 
 			if (
-				isValidCell(nx, ny, rows, cols) &&
-				!visited[ny][nx] &&
-				map[ny][nx] !== '#'
+				nx >= 0 &&
+				nx < cols &&
+				ny >= 0 &&
+				ny < rows &&
+				map[ny][nx] !== '#' &&
+				distances[ny][nx] === -1
 			) {
-				visited[ny][nx] = true
-				queue.push([nx, ny, d + 1])
+				distances[ny][nx] = distances[y][x] + 1
+				queue.push([nx, ny])
 			}
 		}
 	}
 
-	return result || -1
+	let total = 0
+
+	for (let y = 0; y < rows; y++) {
+		for (let x = 0; x < cols; x++) {
+			const cell = map[y][x]
+			if (cell === 'G') {
+				if (distances[y][x] === -1) return -1
+
+				total += distances[y][x]
+			}
+		}
+	}
+
+	return total
 }
-
-console.log(
-	minStepsToDeliver([
-		['S', '.', 'G'],
-		['.', '#', '.'],
-		['G', '.', '.']
-	])
-)
-// Result: 4
-
-console.log(
-	minStepsToDeliver([
-		['S', '#', 'G'],
-		['#', '#', '.'],
-		['G', '.', '.']
-	])
-)
-// Result: -1
-
-console.log(minStepsToDeliver([['S', 'G']]))
-// Result: 1
-const mat = [
-	[1, 1, 1, 1],
-	[1, 1, 0, 1],
-	[1, 1, 1, 1],
-	[1, 1, 0, 0],
-	[1, 0, 0, 1]
-]
