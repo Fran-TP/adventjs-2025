@@ -25,10 +25,3 @@ export default function isTreesSynchronized(
 
 	return [true, rootValue]
 }
-
-/*
-  tree1          tree2
-   🎄              🎄
-  / \             / \
-⭐   🎅         🎅   ⭐
-*/
