@@ -26,20 +26,6 @@ export default function isTreesSynchronized(
 	return [true, rootValue]
 }
 
-const tree1 = {
-	value: '🎄',
-	left: { value: '⭐' },
-	right: { value: '🎅' }
-}
-
-const tree2 = {
-	value: '🎄',
-	left: { value: '🎅' },
-	right: { value: '⭐' }
-}
-
-isTreesSynchronized(tree1, tree2) // [true, '🎄']
-
 /*
   tree1          tree2
    🎄              🎄
