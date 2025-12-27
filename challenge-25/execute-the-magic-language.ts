@@ -61,11 +61,3 @@ export default function execute(code: string): number {
 
 	return value
 }
-console.log(execute('+++')) // 3
-console.log(execute('+--')) // -1
-console.log(execute('>+++[-]')) // 0
-console.log(execute('>>>+{++}')) // 3
-console.log(execute('+{[-]+}+')) // 2
-console.log(execute('{+}{+}{+}')) // 0
-console.log(execute('------[+]++')) // 2
-console.log(execute('-[++{-}]+{++++}')) // 5
