@@ -8,15 +8,7 @@ export default function matchGloves(gloves: Glove[]): string[] {
 		const { hand, color } = glove
 
 		const currentColorCount = unpairedCounts.get(color) || 0
-		/*
-		const gloves = [
-  { hand: 'L', color: 'red' },
-  { hand: 'R', color: 'red' },
-  { hand: 'R', color: 'green' },
-  { hand: 'L', color: 'blue' },
-  { hand: 'L', color: 'green' }
-]
-		*/
+
 		if (hand === 'L') {
 			if (currentColorCount > 0) {
 				pairedColors.push(color)
