@@ -1,35 +1,30 @@
-import assert from 'node:assert'
-import { describe, it } from 'node:test'
+import { describe, expect, it } from 'bun:test'
 import filterGifts from './filter-defective-gifts'
 
 describe('filter defective gifts', () => {
 	it('type expected array', () => {
-		const expected = true
-		const actual = Array.isArray(
-			filterGifts(['book', 'game', '#puzzle', 'puzzle#', 'puzzle'])
-		)
+		const actual = filterGifts(['book', 'game', '#puzzle', 'puzzle#', 'puzzle'])
 
-		assert.strictEqual(actual, expected)
+		expect(actual).toBeArray()
 	})
 
-	it("should return '[]'", () => {
-		const expected: string[] = []
+	it('should return a empty array', () => {
 		const actual = filterGifts([])
 
-		assert.deepStrictEqual(actual, expected)
+		expect(actual).toBeEmpty()
 	})
 
 	it("should return '['car', 'ball']'", () => {
 		const expected = ['car', 'ball']
 		const actual = filterGifts(['car', 'doll#arm', 'ball', '#train'])
 
-		assert.deepStrictEqual(actual, expected)
+		expect(actual).toEqual(expected)
 	})
 
 	it("should return '['car', 'ball']", () => {
 		const expected = ['car', 'ball']
 		const actual = filterGifts(['#bad', 'car', '#oops', 'ball'])
 
-		assert.deepStrictEqual(actual, expected)
+		expect(actual).toEqual(expected)
 	})
 })
